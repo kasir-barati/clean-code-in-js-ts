@@ -1,21 +1,20 @@
 {
-    "arrowParens": "always",
-    "useTabs": false,
-    "bracketSpacing": true,
-    "endOfLine": "lf",
-    "printWidth": 70,
-    "quoteProps": "as-needed",
-    "tabWidth": 4,
-    "trailingComma": "all",
-    "semi": true,
-    "singleQuote": true,
-    "overrides": [
-        {
-            "files": "*.yml",
-            "options": {
-                "singleQuote": false,
-                "tabWidth": 2
-            }
-        }
-    ]
+  "printWidth": 70,
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": true,
+  "singleQuote": true,
+  "quoteProps": "consistent",
+  "trailingComma": "all",
+  "bracketSpacing": true,
+  "arrowParens": "always",
+  "endOfLine": "lf",
+  "overrides": [
+    {
+      "files": "*.md",
+      "options": {
+        "tabWidth": 2
+      }
+    }
+  ]
 }

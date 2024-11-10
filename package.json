@@ -1,44 +1,39 @@
 {
-    "name": "design-patterns-in",
-    "version": "1.0.0",
-    "description": "Design-patterns in JavaScript/Typescript, NodeJS",
-    "main": "index.ts",
-    "scripts": {
-        "test": "jest",
-        "build": "rimraf ./build && tsc",
-        "start:dev": "nodemon",
-        "format": "prettier --write '**/*.js' '**/*.ts' '**/*.json' '**/*.md'",
-        "start": "npm run build && node build/index.js"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/kasir-barati/design-patterns-in-js.git"
-    },
-    "keywords": [
-        "design-patterns",
-        "nodejs",
-        "javascript",
-        "typescript"
-    ],
-    "author": "kasir-barati",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/kasir-barati/design-patterns-in-js/issues"
-    },
-    "homepage": "https://github.com/kasir-barati/design-patterns-in-js#readme",
-    "devDependencies": {
-        "@babel/core": "^7.16.0",
-        "@babel/preset-env": "^7.16.4",
-        "@babel/preset-typescript": "^7.16.0",
-        "@types/jest": "^27.0.3",
-        "@types/node": "^16.11.12",
-        "babel-jest": "^27.4.2",
-        "jest": "^27.4.3",
-        "nodemon": "^2.0.15",
-        "prettier": "^2.5.1",
-        "rimraf": "^3.0.2",
-        "ts-jest": "^27.1.0",
-        "ts-node": "^10.4.0",
-        "typescript": "^4.5.2"
-    }
+  "name": "clean-code-in-js-ts",
+  "version": "1.0.0",
+  "description": "How to write clean code in JavaScript/Typescript, NodeJS",
+  "main": "./src/index.ts",
+  "scripts": {
+    "test": "jest",
+    "format": "prettier -w . -u"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kasir-barati/clean-code-in-js-ts.git"
+  },
+  "keywords": [
+    "design-patterns",
+    "clean-code",
+    "nodejs",
+    "javascript",
+    "typescript"
+  ],
+  "author": "kasir-barati",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kasir-barati/clean-code-in-js-ts/issues"
+  },
+  "homepage": "https://github.com/kasir-barati/clean-code-in-js-ts#readme",
+  "devDependencies": {
+    "@types/jest": "^27.0.3",
+    "@types/node": "^16.11.12",
+    "jest": "^27.4.3",
+    "prettier": "^2.5.1",
+    "ts-jest": "^27.1.0",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.2",
+    "nx": "20.0.12",
+    "@nx/jest": "20.0.12"
+  },
+  "nx": {}
 }
