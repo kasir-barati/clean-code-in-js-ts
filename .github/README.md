@@ -1,8 +1,6 @@
-# design-patterns-in-js
+## Design Patterns
 
 Design-patterns in JavaScript/Typescript, NodeJS
-
-## Design-Patterns
 
 ### Creational Design-patterns
 
