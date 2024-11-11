@@ -1,7 +1,12 @@
 import { DateTime } from 'luxon';
 
-// #region Base
+// Brand is a intersection type of base type + our custom brand
+// I.e. it's equivalent to: number & { __brandName: 'NotZeroOrNegative' }
+// https://www.typescriptlang.org/docs/handbook/2/objects.html#intersection-types
+type Brand<Base, BrandName> = Base & { __brandName: BrandName };
+type NotZeroOrNegative = Brand<number, 'NotZeroOrNegative'>;
 
+// Discriminated unions
 type MotionDto = StaticMotionDto | MovingMotionDto;
 
 interface StaticMotionDto {
@@ -18,7 +23,7 @@ interface MovingMotionDto {
   timestamp: Date;
   sensitivity: string;
   status: 'moving';
-  speed: number;
+  speed: NotZeroOrNegative;
 }
 
 interface MeterDto {
@@ -28,23 +33,18 @@ interface MeterDto {
   maximumPowerConsumption: number;
 }
 
-// #endregion
-
-// #region Types
-
-/**
- * Decompose Conditional
- * @see https://refactoring.guru/decompose-conditional
- */
+// Decompose Conditional
+// https://refactoring.guru/decompose-conditional
 function isPowerConsumptionHigh(meterDto: MeterDto) {
   return meterDto.powerConsumption > meterDto.maximumPowerConsumption;
 }
+function isNumber(input: unknown): input is number {
+  return Number.isFinite(input);
+}
 
-/**
- * Assertion signatures
- *
- * @see https://devblogs.microsoft.com/typescript/announcing-typescript-3-7/?nsl_bypass_cache=414792c1e12c19676682d87aee3fa05f#assertion-functions
- */
+// Assertion signatures
+// https://devblogs.microsoft.com/typescript/announcing-typescript-3-7/?nsl_bypass_cache=414792c1e12c19676682d87aee3fa05f#assertion-functions
+
 function assertIsMoving(
   motionDto: MotionDto,
 ): asserts motionDto is MovingMotionDto {
@@ -53,12 +53,21 @@ function assertIsMoving(
   }
 }
 
-/**
- * Type predicates + type guards
- *
- * @see https://www.typescriptlang.org/docs/handbook/advanced-types.html#using-type-predicates).
- * @see https://www.typescriptlang.org/docs/handbook/advanced-types.html#user-defined-type-guards
- */
+function assertNotZeroOrNegative(
+  speed: unknown,
+): asserts speed is NotZeroOrNegative {
+  if (!isNumber(speed)) {
+    throw 'UnknownDataType';
+  }
+  if (speed <= 0) {
+    throw 'NotZeroOrNegative';
+  }
+}
+
+// Type predicates + type guards
+// https://www.typescriptlang.org/docs/handbook/advanced-types.html#using-type-predicates).
+// https://www.typescriptlang.org/docs/handbook/advanced-types.html#user-defined-type-guards
+
 function isStatic(
   motionDto: MotionDto,
 ): motionDto is StaticMotionDto {
@@ -66,6 +75,28 @@ function isStatic(
 }
 
 // #region Usage
+
+class MotionRepository {
+  // ...
+
+  // No change to the object passed to this method.
+  async createMovingMotion(motionDto: Readonly<MotionDto>) {
+    const sanitizedMotion = structuredClone(motionDto);
+
+    assertIsMoving(sanitizedMotion);
+    assertNotZeroOrNegative(sanitizedMotion.speed);
+
+    sanitizedMotion.speed = this.sanitizeSpeed(sanitizedMotion.speed);
+    // ...
+    return await this.dbClient.create(sanitizedMotion);
+  }
+
+  private sanitizeSpeed(speed: NotZeroOrNegative) {
+    const sanitizedSpeed = speed;
+
+    return sanitizedSpeed;
+  }
+}
 
 export async function sanityCheckSensitivity(motionDto: MotionDto) {
   if (isStatic(motionDto)) {
